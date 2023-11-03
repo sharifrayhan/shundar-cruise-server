@@ -27,8 +27,9 @@ async function run() {
   try {
 
     const database = client.db('sundarcruiseDB')
-    const packageCollection = database.collection('packages')
+    const cruisesCollection = database.collection('cruises')
     const spotsCollection = database.collection('spots')
+    const bookingsCollection = database.collection('bookings')
 
 
     app.get('/spots', async(req,res)=>{
@@ -42,6 +43,34 @@ async function run() {
         const query = {_id: new ObjectId(id)}
         console.log('i need data for id :', id);
         const product =  await spotsCollection.findOne( query );
+        res.send(product);
+    })
+
+    app.get('/cruises', async(req,res)=>{
+        const cursor = cruisesCollection.find()
+        const result = await cursor.toArray()
+        res.send(result)
+    })
+
+    app.get('/cruises/:id', async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        console.log('i need data for id :', id);
+        const product =  await cruisesCollection.findOne( query );
+        res.send(product);
+    })
+
+    app.get('/bookings', async(req,res)=>{
+        const cursor = bookingsCollection.find()
+        const result = await cursor.toArray()
+        res.send(result)
+    })
+
+    app.get('/bookings/:id', async(req,res)=>{
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        console.log('i need data for id :', id);
+        const product =  await bookingsCollection.findOne( query );
         res.send(product);
     })
 
